@@ -1,19 +1,36 @@
-// Отримання елементів форми та текстового поля
-const searchForm = document.getElementById('searchForm');
-const searchInput = document.getElementById('searchInput');
-const galleryContaner = document.querySelector('.gallery');
+import { renderImages } from './render-functions';
 
-// Додавання прослуховувача подій для форми
-searchForm.addEventListener('submit', function (event) {
-  event.preventDefault();
+export async function submitSearch() {
+  const searchInput = document.querySelector('.searchInput');
+  const query = searchInput.value.trim();
 
-  // Перевірка наявності тексту у текстовому полі
-  if (searchInput.value.trim() === '') {
-    // Виведення повідомлення про помилку чи виконання інших дій
-    alert('Please enter a search term');
-  } else {
-    // Виконання інших дій, наприклад, відправка запиту або обробка даних
-    // Тут ви можете викликати функцію, яка обробляє непорожній введений текст
-    // Наприклад: submitSearch(searchInput.value);}
+  if (query === '') {
+    iziToast.show({
+      title: 'Hey',
+      message: 'What would you like to add?',
+    });
+    return;
   }
-});
+
+  const apiKey = '42324270-89622daef349524aeb531ebd1';
+  const apiUrl = `https://pixabay.com/api/?key=${apiKey}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true`;
+
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+
+    if (data.hits.length === 0) {
+      iziToast.show({
+        message:
+          'Sorry, there are no images matching your search query. Please try again!',
+      });
+    } else {
+      renderImages(data.hits);
+    }
+  } catch (error) {
+    iziToast.error({
+      title: 'Error!',
+      message: 'An error occurred while fetching data. Please try again later.',
+    });
+  }
+}
