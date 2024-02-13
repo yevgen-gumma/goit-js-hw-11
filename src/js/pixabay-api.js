@@ -8,8 +8,8 @@ export async function submitSearch() {
 
   if (query === '') {
     iziToast.show({
-      title: 'Hey',
-      message: 'What would you like to add?',
+      message: 'Please enter a keyword',
+      backgroundColor: 'yellow',
     });
     return Promise.reject('Empty query');
   }
@@ -27,7 +27,6 @@ export async function submitSearch() {
       return response.json();
     })
     .then(data => {
-      loader.style.display = 'none';
       if (data.hits.length === 0) {
         iziToast.error({
           color: '#fafafb',
@@ -40,7 +39,6 @@ export async function submitSearch() {
       }
     })
     .catch(error => {
-      loader.style.display = 'none';
       iziToast.error({
         title: 'Error!',
         message: `An error occurred while fetching data: ${error.message}. Please try again later.`,
