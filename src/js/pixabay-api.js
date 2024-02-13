@@ -18,7 +18,6 @@ export async function submitSearch() {
   const apiUrl = `https://pixabay.com/api/?key=${apiKey}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true`;
 
   galleryContainer.innerHTML = '';
-  // loader.style.display = 'inline-block';
 
   return fetch(apiUrl)
     .then(response => {
@@ -30,7 +29,9 @@ export async function submitSearch() {
     .then(data => {
       loader.style.display = 'none';
       if (data.hits.length === 0) {
-        iziToast.show({
+        iziToast.error({
+          color: '#fafafb',
+          backgroundColor: '#ef4040',
           message:
             'Sorry, there are no images matching your search query. Please try again!',
         });
@@ -45,5 +46,4 @@ export async function submitSearch() {
         message: `An error occurred while fetching data: ${error.message}. Please try again later.`,
       });
     });
-  hideLoader();
 }

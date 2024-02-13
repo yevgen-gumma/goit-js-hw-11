@@ -33,7 +33,7 @@ export function renderImages(images) {
 
     const linkElement = document.createElement('a');
     linkElement.href = largeImageURL;
-    linkElement.classList.add('gallery-item'); // Додайте клас для посилань
+    linkElement.classList.add('gallery-item');
 
     linkElement.appendChild(imageElement);
     linkElement.appendChild(infoElement);
