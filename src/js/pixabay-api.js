@@ -17,10 +17,13 @@ export async function submitSearch() {
   const apiKey = '42324270-89622daef349524aeb531ebd1';
   const apiUrl = `https://pixabay.com/api/?key=${apiKey}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true`;
 
+  loader.style.display = 'inline-block';
+
   galleryContainer.innerHTML = '';
 
   return fetch(apiUrl)
     .then(response => {
+      loader.style.display = 'none';
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -39,6 +42,7 @@ export async function submitSearch() {
       }
     })
     .catch(error => {
+      loader.style.display = 'none';
       iziToast.error({
         title: 'Error!',
         message: `An error occurred while fetching data: ${error.message}. Please try again later.`,
